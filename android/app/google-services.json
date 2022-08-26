@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "150554029757",
+    "project_id": "wishwall-4",
+    "storage_bucket": "wishwall-4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150554029757:android:a666216ffaa61810f991d4",
+        "android_client_info": {
+          "package_name": "com.example.wish_wall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150554029757-pb1if4bh5qvlnrl29d3u22du5rtb7nqt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZQ7DRGylalbiv16pJOa0HK4ioYq8j8DM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150554029757-pb1if4bh5qvlnrl29d3u22du5rtb7nqt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,239 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:velocity_x/velocity_x.dart';
+
+import '../../models/usermodel.dart';
+
+class SettingsPageWisher extends StatefulWidget {
+  @override
+  _SettingsPageWisherState createState() => _SettingsPageWisherState();
+}
+
+class _SettingsPageWisherState extends State<SettingsPageWisher> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  final user = FirebaseAuth.instance.currentUser;
+
+  final collectionRef =
+      FirebaseFirestore.instance.collection('Wishers_Accounts');
+
+  bool recieveNotif = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white.withOpacity(0.95),
+      body: SingleChildScrollView(
+        physics: const ScrollPhysics(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 141, 179),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50))),
+                  height: Get.height * 0.4,
+                ),
+                Positioned(
+                  left: Get.width * 0.2,
+                  right: Get.width * 0.2,
+                  bottom: 40,
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.settings,
+                        size: 70,
+                        color: Colors.white,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      'Settings'.text.color(Colors.white).bold.size(25).make()
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 30),
+                  child: IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 20)),
+            Container(
+              height: Get.height * 0.07,
+              width: Get.width * 0.73,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: Row(
+                children: [
+                  'App Notifications'.text.size(17).make(),
+                  const Spacer(),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Switch(
+                        activeColor: Colors.pink,
+                        value: recieveNotif,
+                        onChanged: (value) {
+                          setState(() {
+                            recieveNotif = value;
+                          });
+                        }),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              indent: 50,
+              endIndent: 50,
+              thickness: 0.2,
+              color: Colors.pink,
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 15)),
+            SizedBox(
+              width: 190,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.toNamed('/forgotpass');
+                },
+                style: ElevatedButton.styleFrom(
+                  side: BorderSide(
+                    width: 1,
+                    color: Colors.pink,
+                  ),
+                  primary: Colors.pink, //background color of button
+                  elevation: 3, //elevation of button
+                  shape: RoundedRectangleBorder(
+                      //to set border radius to button
+                      borderRadius: BorderRadius.circular(15)),
+                  //content padding inside button
+                ),
+                child: 'Change Password'.text.size(15).make(),
+              ),
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 15)),
+            Divider(
+              indent: 50,
+              endIndent: 50,
+              thickness: 0.2,
+              color: Colors.pink,
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 15)),
+            SizedBox(
+              width: 190,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.toNamed('/editemail');
+                },
+                style: ElevatedButton.styleFrom(
+                  side: BorderSide(
+                    width: 1,
+                    color: Colors.pink,
+                  ),
+                  primary: Colors.pink, //background color of button
+                  elevation: 3, //elevation of button
+                  shape: RoundedRectangleBorder(
+                      //to set border radius to button
+                      borderRadius: BorderRadius.circular(15)),
+                  //content padding inside button
+                ),
+                child: 'Change Email'.text.size(15).make(),
+              ),
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 15)),
+            Divider(
+              indent: 50,
+              endIndent: 50,
+              thickness: 0.2,
+              color: Colors.pink,
+            ),
+            Padding(padding: EdgeInsets.only(bottom: 15)),
+            SizedBox(
+              width: 190,
+              height: 40,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                      barrierDismissible: false,
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25.0))),
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 247, 250),
+                            title: const Text('Delete Account?'),
+                            content: const Text(
+                                'Are you sure you want to delete your account? You cannot undo  this action.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: (() {
+                                    deleteUser().then((value) {
+                                      Get.offAndToNamed('/signinpage');
+                                    });
+                                  }),
+                                  child: const Text('Delete')),
+                              TextButton(
+                                  onPressed: (() {
+                                    Get.back();
+                                  }),
+                                  child: const Text('Dismiss')),
+                            ],
+                          ));
+                },
+                style: ElevatedButton.styleFrom(
+                  side: BorderSide(
+                    width: 1,
+                    color: Colors.pink,
+                  ),
+                  primary: Colors.pink, //background color of button
+                  elevation: 3, //elevation of button
+                  shape: RoundedRectangleBorder(
+                      //to set border radius to button
+                      borderRadius: BorderRadius.circular(15)),
+                  //content padding inside button
+                ),
+                child: 'Delete Account'.text.size(15).make(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future deleteUser() {
+    user?.delete(); //this deletes the user in Firebase Auth
+    return collectionRef
+        .doc(user?.uid)
+        .delete(); //this deletes the user data corresponding to the Firebase Auth
+    //that has been deleted in the prev function
+  }
+}
